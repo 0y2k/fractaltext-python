@@ -108,6 +108,13 @@ class ItemDict(Item):
     return False
 
 
+class ItemA(Item):
+  indent: int
+  def __init__(self, indent: int, **kwargs):
+    super().__init__(**kwargs)
+    self.indent = indent
+    self.annotated = True
+
 class ElemAList:
   surplus_tokens: list[TokenSurplus]
   quoted: bool
@@ -133,13 +140,6 @@ class ElemADict:
     if not isinstance(obj, ElemDict):
       return NotImplemented
     return self.key == obj.key and self.value == obj.value
-
-class ItemA(Item):
-  indent: int
-  def __init__(self, indent: int, **kwargs):
-    super().__init__(**kwargs)
-    self.indent = indent
-    self.annotated = True
 
 class ItemAList(ItemA, ItemList):
   kind: Literal['list']

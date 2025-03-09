@@ -1,4 +1,4 @@
-from fractaltext.item import ElemList, ElemDict, ItemList, ItemDict
+from fractaltext.item import ElemList, ElemDict, Item, ItemList, ItemDict
 from fractaltext.serialize import dump_naked
 
 from io import StringIO

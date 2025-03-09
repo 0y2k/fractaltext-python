@@ -1,5 +1,5 @@
 from fractaltext.annotate import from_dict_naked, to_dict_naked
-from fractaltext.item import ElemList, ElemDict, Item, ItemList, ItemDict, should_quote
+from fractaltext.item import DocumentA, ElemList, ElemDict, Item, ItemList, ItemDict, should_quote
 from fractaltext.parse import parse, parse_naked
 from fractaltext.serialize import dump, dump_naked
 

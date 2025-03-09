@@ -1,4 +1,0 @@
-include LICENSE
-recursive-include vendor *.md
-recursive-include vendor *.ft
-recursive-include vendor *.json

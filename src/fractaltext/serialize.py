@@ -1,4 +1,4 @@
-from .item import Item, ItemList, ItemDict
+from .item import DocumentA, Item, ItemList, ItemDict, ItemA, TokenSurplus
 
 from collections.abc import Iterable
 from typing import TextIO

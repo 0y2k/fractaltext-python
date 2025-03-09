@@ -1,5 +1,7 @@
 from .item import DocumentA, ElemList, ElemDict, ElemAList, ElemADict, Item, ItemList, ItemDict, ItemA, ItemAList, ItemADict, should_quote
 
+from typing import Any
+
 
 def peel(doc: DocumentA) -> Item:
   def pt(it: ItemA) -> Item:
