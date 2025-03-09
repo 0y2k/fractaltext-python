@@ -1,0 +1,30 @@
+[project]
+name = "fractaltext"
+version = "0.1.0"
+description = "FractalText: recursive plaintext data format"
+readme = "README.rst"
+keywords = ["fractaltext"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: File Formats",
+]
+authors = [
+  { name = "0y2k", email = "0x0y2k@gmail.com" },
+]
+maintainers = [
+  { name = "0y2k", email = "0x0y2k@gmail.com" },
+]
+requires-python = ">=3.8"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+[tool.setuptools]
+package-dir = { "" = "src" }
+[tool.pytest.ini_options]
+pythonpath = "./src"
+python_files = "test_*.py"
+python_classes = "Test*"
