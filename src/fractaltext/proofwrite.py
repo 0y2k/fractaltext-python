@@ -1,5 +1,4 @@
 from abc import ABC
-from copy import deepcopy
 from typing import Literal
 
 from .item import DocumentA, Item, ItemList
@@ -75,9 +74,8 @@ class EditUpdate(Edit):
     self.value = v
 
 
-def apply(it0: ItemList, e: Edit) -> ItemList:
-  it = deepcopy(it0)
-  if it0.kind != "list":
+def apply(it: ItemList, e: Edit) -> ItemList:
+  if it.kind != "list":
     raise FractalTextEditError("Expected list, got dict")
   n = len(it.entries)
   if e.kind == "delete":
@@ -99,11 +97,11 @@ def apply(it0: ItemList, e: Edit) -> ItemList:
   return it
 
 
-def edit(it0: Item, p: Path, e: Edit) -> Item:
+def edit(it: Item, p: Path, e: Edit) -> Item:
   if p.kind == "itself":
-    if it0.kind == "list":
+    if it.kind == "list":
       try:
-        return apply(it0, e)
+        return apply(it, e)
       except IndexError:
         raise FractalTextEditError("Index is out of bound")
       except Exception as ex:
@@ -111,11 +109,10 @@ def edit(it0: Item, p: Path, e: Edit) -> Item:
     else:
       raise FractalTextEditError("Expected list, got dict")
   elif p.kind == "lookup":
-    if it0.kind == "dict":
-      j = next((i for (i, ed) in enumerate(it0.entries) if ed.key == p.key), None)
+    if it.kind == "dict":
+      j = next((i for (i, ed) in enumerate(it.entries) if ed.key == p.key), None)
       if j is None:
         raise FractalTextEditError(f"No such key: {p.key}")
-      it = deepcopy(it0)
       it.entries[j].value = edit(it.entries[j].value, p.next_path, e)
       return it
     else:
@@ -124,21 +121,18 @@ def edit(it0: Item, p: Path, e: Edit) -> Item:
     raise ValueError
 
 
-def delete(doc0: DocumentA, p: Path, i: int) -> DocumentA:
-  doc = deepcopy(doc0)
-  doc.item = edit(doc.item, p, EditDelete(i))
+def delete(doc: DocumentA, p: Path, i: int) -> DocumentA:
+  edit(doc.item, p, EditDelete(i))
   return doc
 
 
-def insert(doc0: DocumentA, p: Path, i: int, v: str) -> DocumentA:
-  doc = deepcopy(doc0)
-  doc.item = edit(doc.item, p, EditInsert(i, v))
+def insert(doc: DocumentA, p: Path, i: int, v: str) -> DocumentA:
+  edit(doc.item, p, EditInsert(i, v))
   return doc
 
 
-def update(doc0: DocumentA, p: Path, i: int, v: str) -> DocumentA:
-  doc = deepcopy(doc0)
-  doc.item = edit(doc.item, p, EditUpdate(i, v))
+def update(doc: DocumentA, p: Path, i: int, v: str) -> DocumentA:
+  edit(doc.item, p, EditUpdate(i, v))
   return doc
 
 

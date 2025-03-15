@@ -19,7 +19,7 @@ class TestProofwrite:
     item = ItemList(["test"])
     path = itself()
     assert insert_naked(item, path, 0, "value") == ItemList(["value", "test"])
-    assert insert_naked(item, path, 1, "value") == ItemList(["test", "value"])
+    assert insert_naked(item, path, 2, "value") == ItemList(["value", "test", "value"])
 
   def test_update(self):
     item = ItemList(["test"])
