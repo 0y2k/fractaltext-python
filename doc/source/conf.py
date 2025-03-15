@@ -7,6 +7,8 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(*["..", "..", "src"])))
+# workaround for https://github.com/sphinx-doc/sphinx/issues/13231
+del os.environ["SOURCE_DATE_EPOCH"]
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -20,7 +22,6 @@ author = "0y2k"
 
 extensions = [
   "sphinx.ext.autodoc",
-  #'sphinx.ext.autosummary',
   "sphinx.ext.napoleon",
 ]
 
@@ -31,7 +32,7 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "alabaster"
+html_theme = "haiku"
 html_theme_options = {
   "nosidebar": True,
 }

@@ -4,7 +4,7 @@ fractaltext documentation
 **FractalText** is a dead-simple, recursive plaintext data format
 which aims to alternate TOML or YAML.
 
-See <https://github.com/0y2k/fractaltext-spec>.
+See `official specification <https://github.com/0y2k/fractaltext-spec>`_.
 
 Annotated and Naked
 -------------------
