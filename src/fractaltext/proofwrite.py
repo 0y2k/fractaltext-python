@@ -1,7 +1,9 @@
 from abc import ABC
 from typing import Literal
 
-from .item import DocumentA, Item, ItemList
+from typing_extensions import assert_never
+
+from .item import DocumentA, ElemAList, ElemList, Item, ItemA, should_quote
 
 
 class FractalTextEditError(Exception):
@@ -74,7 +76,7 @@ class EditUpdate(Edit):
     self.value = v
 
 
-def apply(it: ItemList, e: Edit) -> ItemList:
+def apply(it: ItemA, e: Edit) -> ItemA:
   if it.kind != "list":
     raise FractalTextEditError("Expected list, got dict")
   n = len(it.entries)
@@ -86,18 +88,23 @@ def apply(it: ItemList, e: Edit) -> ItemList:
   elif e.kind == "insert":
     if 0 <= e.index <= n:
       els = it.entries
-      it.entries = els[0 : e.index] + [e.value] + els[e.index :]
+      x = e.value
+      it.entries = (
+        els[0 : e.index] + [ElemAList([], should_quote(x), x)] + els[e.index :]
+      )
     else:
       raise IndexError
   elif e.kind == "update":
     if 0 <= e.index < n:
-      it.entries[e.index] = e.value
+      el = it.entries[e.index]
+      x = e.value
+      it.entries[e.index] = ElemAList(el.surplus_tokens, should_quote(x), x)
     else:
       raise IndexError
   return it
 
 
-def edit(it: Item, p: Path, e: Edit) -> Item:
+def edit(it: ItemA, p: Path, e: Edit) -> Item:
   if p.kind == "itself":
     if it.kind == "list":
       try:
@@ -113,7 +120,55 @@ def edit(it: Item, p: Path, e: Edit) -> Item:
       j = next((i for (i, ed) in enumerate(it.entries) if ed.key == p.key), None)
       if j is None:
         raise FractalTextEditError(f"No such key: {p.key}")
-      it.entries[j].value = edit(it.entries[j].value, p.next_path, e)
+      edit(it.entries[j].value, p.next_path, e)
+      return it
+    else:
+      raise FractalTextEditError("Expected dict, got list")
+  assert_never(p.kind)
+
+
+def apply_naked(it: Item, e: Edit) -> Item:
+  if it.kind != "list":
+    raise FractalTextEditError("Expected list, got dict")
+  n = len(it.entries)
+  if e.kind == "delete":
+    if 0 <= e.index < n:
+      del it.entries[e.index]
+    else:
+      raise IndexError
+  elif e.kind == "insert":
+    if 0 <= e.index <= n:
+      els = it.entries
+      x = e.value
+      it.entries = els[0 : e.index] + [ElemList(should_quote(x), x)] + els[e.index :]
+    else:
+      raise IndexError
+  elif e.kind == "update":
+    if 0 <= e.index < n:
+      x = e.value
+      it.entries[e.index] = ElemList(should_quote(x), x)
+    else:
+      raise IndexError
+  return it
+
+
+def edit_naked(it: Item, p: Path, e: Edit) -> Item:
+  if p.kind == "itself":
+    if it.kind == "list":
+      try:
+        return apply_naked(it, e)
+      except IndexError:
+        raise FractalTextEditError("Index is out of bound")
+      except Exception as ex:
+        raise ex
+    else:
+      raise FractalTextEditError("Expected list, got dict")
+  elif p.kind == "lookup":
+    if it.kind == "dict":
+      j = next((i for (i, ed) in enumerate(it.entries) if ed.key == p.key), None)
+      if j is None:
+        raise FractalTextEditError(f"No such key: {p.key}")
+      edit(it.entries[j].value, p.next_path, e)
       return it
     else:
       raise FractalTextEditError("Expected dict, got list")
@@ -137,15 +192,15 @@ def update(doc: DocumentA, p: Path, i: int, v: str) -> DocumentA:
 
 
 def delete_naked(it: Item, p: Path, i: int) -> Item:
-  return edit(it, p, EditDelete(i))
+  return edit_naked(it, p, EditDelete(i))
 
 
 def insert_naked(it: Item, p: Path, i: int, v: str) -> Item:
-  return edit(it, p, EditInsert(i, v))
+  return edit_naked(it, p, EditInsert(i, v))
 
 
 def update_naked(it: Item, p: Path, i: int, v: str) -> Item:
-  return edit(it, p, EditUpdate(i, v))
+  return edit_naked(it, p, EditUpdate(i, v))
 
 
 def exists_naked(it: Item, p: Path) -> bool:

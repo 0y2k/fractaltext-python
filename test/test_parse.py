@@ -52,7 +52,7 @@ class TestParser:
         with open(load_in_path, encoding="utf-8") as f:
           load_naked(f)
       assert err.value.line_no == expected_err["line"], (
-        f"Got an error in different location. expected: {expected_err.line}, got: {err.line_no}"
+        f"Got an error in different location. expected: {expected_err['line']}, got: {err.value.line_no}"
       )
     else:
       raise RuntimeError("No expected result")

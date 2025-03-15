@@ -60,7 +60,7 @@ class TokenValue(TokenValid):
 
 class Item(ABC):
   kind: Literal["list", "dict"]
-  annotated: Literal[bool]
+  annotated: bool
 
   def __init__(self):
     self.annotated = False

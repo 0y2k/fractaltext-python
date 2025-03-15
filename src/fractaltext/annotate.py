@@ -1,5 +1,7 @@
 from typing import Any
 
+from typing_extensions import assert_never
+
 from .item import (
   DocumentA,
   ElemADict,
@@ -38,8 +40,7 @@ def peel(doc: DocumentA) -> Item:
       for ed in it.entries:
         res.append(ElemDict(ed.key, pt(ed.value)))
       return ItemDict(res)
-    else:
-      raise ValueError
+    assert_never(it.kind)
 
   return pt(doc.item)
 
@@ -70,8 +71,7 @@ def annotate(it0: Item, isucc: int = 2) -> DocumentA:
       for ed in it.entries:
         res.append(ElemADict([], ed.key, pt(i + isucc, ed.value)))
       return ItemAList(i, res)
-    else:
-      raise ValueError
+    assert_never(it.kind)
 
   return DocumentA(pt(0, it0), [])
 
@@ -124,7 +124,7 @@ def from_dict(d: Any, isucc: int = 2) -> DocumentA:
     ValueError: if d is not str-in-list-in-dict structure
   """
   item = from_dict_naked(d)
-  return DocumentA(annotate(item, isucc), [])
+  return annotate(item, isucc)
 
 
 def to_dict_naked(it: Item) -> Any:
@@ -148,8 +148,7 @@ def to_dict_naked(it: Item) -> Any:
     for ed in it.entries:
       res[ed.key] = to_dict_naked(ed.value)
     return res
-  else:
-    raise ValueError
+  assert_never(it.kind)
 
 
 def to_dict(doc: DocumentA) -> Any:

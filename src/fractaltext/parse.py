@@ -10,9 +10,9 @@ from .item import (
   ElemADict,
   ElemAList,
   Item,
+  ItemA,
   ItemADict,
   ItemAList,
-  ItemList,
   Token,
   TokenBlank,
   TokenComment,
@@ -33,9 +33,9 @@ class LineToken:
   token: Token
   line_no: int
 
-  def __init__(self, t: Token, lnum: int):
+  def __init__(self, t: Token, n: int):
     self.token = t
-    self.line_no = lnum
+    self.line_no = n
 
 
 def tokenize(lines: Iterable[str]) -> Iterable[LineToken]:
@@ -110,12 +110,12 @@ def parse_document(tokens: Iterable[LineToken]) -> DocumentA:
   discharge = []
   p = peekable(tokens)
 
-  def parse_item(current_indent: int | None) -> Item:
+  def parse_item(current_indent: int | None) -> ItemA:
     nonlocal discharge
     while True:
       n = p.peek(default=None)
       if n is None:
-        return ItemList([])
+        return ItemAList(current_indent, [])
       if n.token.kind in ["blank", "comment"]:
         discharge.append(n.token)
         _ = next(p)
@@ -125,7 +125,7 @@ def parse_document(tokens: Iterable[LineToken]) -> DocumentA:
           raise FractalTextParseError("Unexpected indentation", n.line_no)
       else:
         if n.token.indent <= current_indent:
-          return ItemList([])
+          return ItemAList(current_indent, [])
       mode = "list" if n.token.kind == "value" else "dict"
       if current_indent is None:
         next_indent = 0
@@ -165,7 +165,7 @@ def parse_document(tokens: Iterable[LineToken]) -> DocumentA:
 
   # Ensure that no unexpected tokens remain after parsing the document.
   item = parse_item(None)
-  while (n := next(tokens, None)) is not None:
+  while (n := next(p, None)) is not None:
     if n.token.kind in ["blank", "comment"]:
       discharge.append(n.token)
     else:

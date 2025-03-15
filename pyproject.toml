@@ -39,7 +39,10 @@ maintainers = [
     { name = "0y2k", email = "0x0y2k@gmail.com" },
 ]
 requires-python = ">=3.10"
-dependencies = ["more-itertools"]
+dependencies = [
+    "more-itertools>=10.6.0",
+    "typing-extensions>=4.12.2",
+]
 
 [dependency-groups]
 dev = [
@@ -52,6 +55,9 @@ doc = [
 test = [
     "hypothesis>=6.129.0",
     "pytest>=8.3.5",
+]
+type = [
+    "pyright>=1.1.396",
 ]
 
 [tool.pytest.ini_options]
