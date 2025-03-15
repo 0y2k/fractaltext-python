@@ -6,6 +6,8 @@ which aims to alternate TOML or YAML.
 
 See `official specification <https://github.com/0y2k/fractaltext-spec>`_.
 
+This document is about fractaltext-|version|.
+
 Annotated and Naked
 -------------------
 

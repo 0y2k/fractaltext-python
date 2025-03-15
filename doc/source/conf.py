@@ -6,34 +6,33 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(*["..", "..", "src"])))
+from sphinx_pyproject import SphinxConfig
+
 # workaround for https://github.com/sphinx-doc/sphinx/issues/13231
-del os.environ["SOURCE_DATE_EPOCH"]
+os.environ.pop("SOURCE_DATE_EPOCH", None)
+
+sys.path.insert(0, os.path.abspath(os.path.join(*["..", "..", "src"])))
+
+config = SphinxConfig(os.path.join(*["..", "..", "pyproject.toml"]), globalns=globals())
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "FractalText"
-copyright = "2025, 0y2k"
-author = "0y2k"
+project
+copyright
+author
+version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = [
-  "sphinx.ext.autodoc",
-  "sphinx.ext.napoleon",
-]
-
-templates_path = ["_templates"]
-exclude_patterns = []
-
+extensions
+templates_path
+exclude_patterns
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "haiku"
-html_theme_options = {
-  "nosidebar": True,
-}
-html_static_path = ["_static"]
+html_theme
+html_theme_options
+html_static_path

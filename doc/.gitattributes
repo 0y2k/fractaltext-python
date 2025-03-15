@@ -1,1 +1,1 @@
-make.bat diff eol=crlf text=true
+/make.bat diff eol=crlf text=true

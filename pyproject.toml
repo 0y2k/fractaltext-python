@@ -51,6 +51,7 @@ dev = [
 ]
 doc = [
     "sphinx>=8.1.3",
+    "sphinx-pyproject>=0.3.0",
 ]
 test = [
     "hypothesis>=6.129.0",
@@ -87,3 +88,20 @@ ignore = [
 ]
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"] # unused-import
+"doc/source/conf.py" = [
+    "B018", # useless-expression
+    "F821", # undefined-name
+]
+
+[tool.sphinx-pyproject]
+project = "FractalText"
+copyright = "2025, 0y2k"
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+]
+templates_path = ["_templates"]
+exclude_patterns = []
+html_theme = "haiku"
+html_theme_options = {"nosidebar" = true}
+html_static_path = ["_static"]

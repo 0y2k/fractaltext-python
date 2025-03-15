@@ -140,6 +140,32 @@ wheels = [
 ]
 
 [[package]]
+name = "dom-toml"
+version = "2.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "domdf-python-tools" },
+    { name = "tomli" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fd/38/5df2387f84efce3c7ef8d211cae6ca2736a730efc13b7d15a9584bb81b30/dom_toml-2.0.1.tar.gz", hash = "sha256:31c5874595c777f41cc191c34c66dbea215c8289a7b148b425fb7a10c3f4fbc8", size = 11180 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/33/c6/57f64b0e93da6f43393dfcc1281ee1ce8eafbeb940d3861056caa28ae818/dom_toml-2.0.1-py3-none-any.whl", hash = "sha256:6681a793c94a5d1fb7b59690009cc3b1dfb1bcaae108fb8054c712a8f128efc7", size = 13459 },
+]
+
+[[package]]
+name = "domdf-python-tools"
+version = "3.10.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "natsort" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/36/8b/ab2d8a292bba8fe3135cacc8bfd3576710a14b8f2d0a8cde19130d5c9d21/domdf_python_tools-3.10.0.tar.gz", hash = "sha256:2ae308d2f4f1e9145f5f4ba57f840fbfd1c2983ee26e4824347789649d3ae298", size = 100458 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5b/11/208f72084084d3f6a2ed5ebfdfc846692c3f7ad6dce65e400194924f7eed/domdf_python_tools-3.10.0-py3-none-any.whl", hash = "sha256:5e71c1be71bbcc1f881d690c8984b60e64298ec256903b3147f068bc33090c36", size = 126860 },
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.2.2"
 source = { registry = "https://pypi.org/simple" }
@@ -174,6 +200,7 @@ dev = [
 doc = [
     { name = "sphinx", version = "8.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "sphinx-pyproject" },
 ]
 test = [
     { name = "hypothesis" },
@@ -194,7 +221,10 @@ dev = [
     { name = "pre-commit", specifier = ">=4.1.0" },
     { name = "ruff", specifier = ">=0.9.10" },
 ]
-doc = [{ name = "sphinx", specifier = ">=8.1.3" }]
+doc = [
+    { name = "sphinx", specifier = ">=8.1.3" },
+    { name = "sphinx-pyproject", specifier = ">=0.3.0" },
+]
 test = [
     { name = "hypothesis", specifier = ">=6.129.0" },
     { name = "pytest", specifier = ">=8.3.5" },
@@ -328,6 +358,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/88/3b/7fa1fe835e2e93fd6d7b52b2f95ae810cf5ba133e1845f726f5a992d62c2/more-itertools-10.6.0.tar.gz", hash = "sha256:2cd7fad1009c31cc9fb6a035108509e6547547a7a738374f10bd49a09eb3ee3b", size = 125009 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/23/62/0fe302c6d1be1c777cab0616e6302478251dfbf9055ad426f5d0def75c89/more_itertools-10.6.0-py3-none-any.whl", hash = "sha256:6eb054cb4b6db1473f6e15fcc676a08e4732548acd47c708f0e179c2c7c01e89", size = 63038 },
+]
+
+[[package]]
+name = "natsort"
+version = "8.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e2/a9/a0c57aee75f77794adaf35322f8b6404cbd0f89ad45c87197a937764b7d0/natsort-8.4.0.tar.gz", hash = "sha256:45312c4a0e5507593da193dedd04abb1469253b601ecaf63445ad80f0a1ea581", size = 76575 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ef/82/7a9d0550484a62c6da82858ee9419f3dd1ccc9aa1c26a1e43da3ecd20b0d/natsort-8.4.0-py3-none-any.whl", hash = "sha256:4732914fb471f56b5cce04d7bae6f164a592c7712e1c85f9ef585e197299521c", size = 38268 },
 ]
 
 [[package]]
@@ -592,6 +631,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/38/ad/4360e50ed56cb483667b8e6dadf2d3fda62359593faabbe749a27c4eaca6/sphinx-8.2.3.tar.gz", hash = "sha256:398ad29dee7f63a75888314e9424d40f52ce5a6a87ae88e7071e80af296ec348", size = 8321876 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/31/53/136e9eca6e0b9dc0e1962e2c908fbea2e5ac000c2a2fbd9a35797958c48b/sphinx-8.2.3-py3-none-any.whl", hash = "sha256:4405915165f13521d875a8c29c8970800a0141c14cc5416a38feca4ea5d9b9c3", size = 3589741 },
+]
+
+[[package]]
+name = "sphinx-pyproject"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dom-toml" },
+    { name = "domdf-python-tools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/39/97/aa8cec3da3e78f2c396b63332e2fe92fe43f7ff2ad19b3998735f28b0a7f/sphinx_pyproject-0.3.0.tar.gz", hash = "sha256:efc4ee9d96f579c4e4ed1ac273868c64565e88c8e37fe6ec2dc59fbcd57684ab", size = 7695 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/90/d5/89cb47c6399fd57ca451af15361499813c5d53e588cb6e00d89411ce724f/sphinx_pyproject-0.3.0-py3-none-any.whl", hash = "sha256:3aca968919f5ecd390f96874c3f64a43c9c7fcfdc2fd4191a781ad9228501b52", size = 23076 },
 ]
 
 [[package]]
