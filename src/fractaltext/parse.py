@@ -10,7 +10,6 @@ from .item import (
   ElemADict,
   ElemAList,
   Item,
-  ItemA,
   ItemADict,
   ItemAList,
   ItemList,
@@ -40,9 +39,19 @@ class LineToken:
 
 
 def tokenize(lines: Iterable[str]) -> Iterable[LineToken]:
-  """
+  """tokenize
+
   Tokenize the input text into a list of tokens.
   If a tab character is found in the indentation, an error is raised.
+
+  Args:
+    lines (Iterable[str]): input strings
+
+  Returns:
+    Iterable[LineToken]: output tokens with line number
+
+  Raises:
+    FractalTextParseError: if tab character found
   """
   for lineno, line in enumerate(lines, start=1):
     indent = 0
@@ -75,9 +84,9 @@ def tokenize(lines: Iterable[str]) -> Iterable[LineToken]:
 
 
 def parse_document(tokens: Iterable[LineToken]) -> DocumentA:
-  """
+  """parse_document
+
   Recursively parse tokens starting at a given index and indentation level.
-  Returns an Item.
 
   Parsing rules:
     - Only tokens with indent equal to current_indent are processed at this level.
@@ -88,6 +97,15 @@ def parse_document(tokens: Iterable[LineToken]) -> DocumentA:
     - Mixing key and value tokens at the same level is not allowed.
     - For each key token, its associated child block is defined by subsequent tokens with indent greater than current_indent.
       If no such tokens exist, the child item is set to ItemEmptyList.
+
+  Args:
+    tokens (Iterable[LineToken]): input tokens
+
+  Returns:
+    DocumentA: output annotated document
+
+  Raises:
+    FractalTextParseError: if parse error happens
   """
   discharge = []
   p = peekable(tokens)
@@ -162,22 +180,70 @@ def parse_document(tokens: Iterable[LineToken]) -> DocumentA:
 
 
 def parse(text: str) -> DocumentA:
-  """
+  """parse
+
   Main entry point for parsing a FractalText document.
-  The entire input must correspond to a single Item.
+
+  Args:
+    text (str): input text
+
+  Returns:
+    DocumentA: output annotated document
+
+  Raises:
+    FractalTextParseError: if parse error happens
   """
   lines = re.split("\n|\r\n?", text)
   tokens = tokenize(lines)
   return parse_document(tokens)
 
 
-def load(f: TextIO) -> ItemA:
+def load(f: TextIO) -> DocumentA:
+  """load
+
+  Main entry point for loading a FractalText document.
+
+  Args:
+    f (TextIO): input text stream
+
+  Returns:
+    DocumentA: output annotated document
+
+  Raises:
+    FractalTextParseError: if parse error happens
+  """
   return parse(f.read())
 
 
 def parse_naked(text: str) -> Item:
+  """parse_naked
+
+  Main entry point for parsing a naked FractalText document.
+
+  Args:
+    text (str): input text
+
+  Returns:
+    Item: output naked document
+
+  Raises:
+    FractalTextParseError: if parse error happens
+  """
   return peel(parse(text))
 
 
 def load_naked(f: TextIO) -> Item:
+  """load_naked
+
+  Main entry point for loading a naked FractalText document.
+
+  Args:
+    f (TextIO): input text stream
+
+  Returns:
+    Item: output naked document
+
+  Raises:
+    FractalTextParseError: if parse error happens
+  """
   return parse_naked(f.read())

@@ -15,6 +15,17 @@ def render_surplus_tokens(tss: list[TokenSurplus]) -> Iterable[str]:
 
 
 def serialize(doc: DocumentA) -> Iterable[str]:
+  """serialize
+
+  Convert annotated document into text stream.
+
+  Args:
+    doc (DocumentA): input annotated document
+
+  Returns:
+    Iterable[str]: output linewise text stream
+  """
+
   def pt(it: ItemA) -> Iterable[str]:
     if it.kind == "list":
       for el in it.entries:
@@ -34,6 +45,17 @@ def serialize(doc: DocumentA) -> Iterable[str]:
 
 
 def serialize_naked(it0: Item, isucc: int = 2) -> Iterable[str]:
+  """serialize_naked
+
+  Convert naked document into text stream.
+
+  Args:
+    doc (DocumentA): input naked document
+    isucc (int): indent width
+
+  Returns:
+    Iterable[str]: output linewise text stream
+  """
   if it0.annotated:
     serialize(DocumentA(it0, []))
 
@@ -53,10 +75,27 @@ def serialize_naked(it0: Item, isucc: int = 2) -> Iterable[str]:
 
 
 def dump(doc: DocumentA, f: TextIO):
+  """dump
+
+  Write serialized document which is annotated.
+
+  Args:
+    doc (DocumentA): input annotated document
+    f (TextIO): output text stream
+  """
   for line in serialize(doc):
     f.write(line)
 
 
 def dump_naked(it: Item, f: TextIO, isucc: int = 2):
+  """dump_naked
+
+  Write serialized document which is naked.
+
+  Args:
+    doc (DocumentA): input naked document
+    f (TextIO): output text stream
+    isucc (int): indent width
+  """
   for line in serialize_naked(it, isucc):
     f.write(line)

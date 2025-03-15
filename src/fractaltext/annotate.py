@@ -16,6 +16,17 @@ from .item import (
 
 
 def peel(doc: DocumentA) -> Item:
+  """peel
+
+  Remove annotation.
+
+  Args:
+    doc (DocumentA): input annotated document
+
+  Returns:
+    Item: output document
+  """
+
   def pt(it: ItemA) -> Item:
     if it.kind == "list":
       res = []
@@ -34,6 +45,17 @@ def peel(doc: DocumentA) -> Item:
 
 
 def annotate(it0: Item, isucc: int = 2) -> DocumentA:
+  """annotate
+
+  Add annotation.
+
+  Args:
+    it0 (Item): input document
+    isucc (int, optional): indent width. default is 2.
+
+  Returns:
+    DocumentA: output annotated document
+  """
   if it0.annotated:
     return DocumentA(it0, [])
 
@@ -55,6 +77,19 @@ def annotate(it0: Item, isucc: int = 2) -> DocumentA:
 
 
 def from_dict_naked(d: Any) -> Item:
+  """from_dict_naked
+
+  Convert from str-in-list-in-dict structure to document.
+
+  Args:
+    d (Any): input str-in-list-in-dict structure
+
+  Returns:
+    Item: output item
+
+  Raises:
+    ValueError: if d is not str-in-list-in-dict structure
+  """
   if isinstance(d, list):
     if all(isinstance(e, str) for e in d):
       res = []
@@ -74,11 +109,35 @@ def from_dict_naked(d: Any) -> Item:
 
 
 def from_dict(d: Any, isucc: int = 2) -> DocumentA:
+  """from_dict
+
+  Convert from str-in-list-in-dict structure to annotated document.
+
+  Args:
+    d (Any): input str-in-list-in-dict structure
+    isucc (int, optional): indent width. default is 2.
+
+  Returns:
+    DocumentA: output annotated document
+
+  Raises:
+    ValueError: if d is not str-in-list-in-dict structure
+  """
   item = from_dict_naked(d)
   return DocumentA(annotate(item, isucc), [])
 
 
 def to_dict_naked(it: Item) -> Any:
+  """to_dict_naked
+
+  Convert from document to str-in-list-in-dict structure.
+
+  Args:
+    it (Item): input document
+
+  Returns:
+    Any: output str-in-list-in-dict structure
+  """
   if it.kind == "list":
     res = []
     for el in it.entries:
@@ -94,4 +153,14 @@ def to_dict_naked(it: Item) -> Any:
 
 
 def to_dict(doc: DocumentA) -> Any:
+  """to_dict
+
+  Convert from annotated document to str-in-list-in-dict structure.
+
+  Args:
+    doc (DocumentA): input annotated document
+
+  Returns:
+    Any: output str-in-list-in-dict structure
+  """
   return to_dict_naked(peel(doc))
