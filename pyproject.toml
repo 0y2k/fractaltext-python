@@ -18,6 +18,13 @@ exclude = [
     "/uv.lock",
 ]
 
+[project.urls]
+Changelog = "https://0y2k.github.io/fractaltext-python/changelog.html"
+Documentation = "https://0y2k.github.io/fractaltext-python/"
+Homepage = "https://0y2k.github.io/fractaltext-python/"
+Issues = "https://github.com/0y2k/fractaltext-python/issues/"
+Repository = "https://github.com/0y2k/fractaltext-python/"
+
 [project]
 name = "fractaltext"
 version = "0.1.0"
