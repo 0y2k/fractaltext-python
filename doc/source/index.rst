@@ -34,4 +34,5 @@ fractaltext
 .. autofunction:: fractaltext.update
 
 * :doc:`fractaltext.naked <./fractaltext.naked>`
+* :doc:`changelog <./changelog>`
 * :ref:`search`
